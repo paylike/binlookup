@@ -1,0 +1,33 @@
+{
+	"name": "binlookup",
+	"version": "0.0.1",
+	"description": "Look up BIN/IIN numbers using binlist.net",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:paylike/binlookup.git"
+	},
+	"testling": {
+		"files": "test.js",
+		"browsers": [
+			"ie/6..latest",
+			"chrome/22..latest",
+			"firefox/16..latest",
+			"safari/latest",
+			"opera/11.0..latest",
+			"iphone/6",
+			"ipad/6",
+			"android-browser/latest"
+		]
+	},
+	"scripts": {
+		"test": "npm run test:browser",
+		"test:browser": "testling"
+	},
+	"author": "Thomas Jensen <thomas@paylike.io> (https://paylike.io)",
+	"devDependencies": {
+		"tape": "^3.5.0",
+		"testling": "^1.7.1",
+		"without-keys": "^0.0.3"
+	},
+	"license": "MIT"
+}
