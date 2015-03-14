@@ -6,6 +6,7 @@
 		"type": "git",
 		"url": "git@github.com:paylike/binlookup.git"
 	},
+	"browser": "browser.js",
 	"testling": {
 		"files": "test.js",
 		"browsers": [
@@ -20,10 +21,14 @@
 		]
 	},
 	"scripts": {
-		"test": "npm run test:browser",
+		"test": "npm run test:node & npm run test:browser",
+		"test:node": "node test",
 		"test:browser": "testling"
 	},
 	"author": "Thomas Jensen <thomas@paylike.io> (https://paylike.io)",
+	"dependencies": {
+		"needle": "^0.8.2"
+	},
 	"devDependencies": {
 		"tape": "^3.5.0",
 		"testling": "^1.7.1",

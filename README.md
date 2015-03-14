@@ -3,12 +3,6 @@
 This module uses the https://www.binlist.net service to return information
 about a card by it's BIN number.
 
-So far it only works in an environment with `XMLHttpRequest` support
-(browsers, not node or io.js).
-
-If you are looking for node support, please leave an issue, as I do not know
-yet whether that is an actual use case.
-
 ## What is a BIN?
 
 The BIN is the first 4-8 characters of a card number: `xxxx xxxx ...`. You can

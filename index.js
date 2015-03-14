@@ -1,5 +1,7 @@
 'use strict';
 
+var needle = require('needle');
+
 module.exports = bl;
 
 bl.lookup = lookup;
@@ -14,29 +16,13 @@ function lookup( key, bin, cb ){
 	var proto = (key ? 'https' : 'http');
 	var url = proto + '://www.binlist.net/json/' + bin.slice(0, 8);
 
-	var xhr = new XMLHttpRequest();
-	xhr.open('GET', url, true /* async*/);
+	needle.get(url, function( err, response ){
+		if (err)
+			return cb(err);
 
-	xhr.onreadystatechange = function(){
-		xhrcb(xhr, cb);
-	};
+		if (response.statusCode !== 200)
+			return cb(response);
 
-	if (key)
-		xhr.setRequestHeader('Authorization', 'Basic ' + btoa(key + ':'));
-
-	xhr.send();
-}
-
-function xhrcb( xhr, cb ){
-	if (xhr.readyState !== 4)
-		return;
-
-	var status;
-
-	try { status = xhr.status } catch(e) { status = 0; }
-
-	var ok = status && (status / 100 | 0) === 2;
-	var body = ok ? JSON.parse(xhr.responseText) : null;
-
-	cb && cb(ok ? null : xhr, body);
+		cb(null, response.body);
+	});
 }
