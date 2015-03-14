@@ -50,3 +50,11 @@ An example of the `data` variable:
 ```
 
 If you're using their free plan, just leave out the api key.
+
+## Security notice
+
+Please do *never* deal with actual card numbers if you are not PCI certified.
+As an added security, all arguments are sliced to the first eight characters
+before shipped off to the binlist service.
+
+This script comes without any warranties, use it at your own risk.
