@@ -1,7 +1,7 @@
 # BIN/IIN look up
 
-This module uses the https://binlist.net service to return information about a
-card by it's BIN number.
+This module uses the https://www.binlist.net service to return information
+about a card by it's BIN number.
 
 So far it only works in an environment with `XMLHttpRequest` support
 (browsers, not node or io.js).
