@@ -49,3 +49,79 @@ test('with a key', { skip: !process.env.KEY }, function( t ){
 		t.notOk(r);
 	});
 });
+
+test('cache', function( t ){
+	t.plan(2);
+
+	bl.noCache = false;
+	bl.flush();
+
+	var b = bl();
+
+	b(bin, function( err, r ){
+		var fr = r;
+
+		b(bin, function( err, r ){
+			t.notOk(err);
+			t.ok(fr === r, 'returned result');
+		});
+	});
+});
+
+test('cache (flush)', function( t ){
+	t.plan(2);
+
+	bl.noCache = false;
+	bl.flush();
+
+	var b = bl();
+
+	b(bin, function( err, r ){
+		var fr = r;
+
+		b(bin, true, function( err, r ){
+			t.notOk(err);
+			t.notOk(fr === r, 'returned result');
+		});
+	});
+});
+
+test('cache (global flush)', function( t ){
+	t.plan(2);
+
+	bl.noCache = false;
+	bl.flush();
+
+	var b = bl();
+
+	b(bin, function( err, r ){
+		var fr = r;
+		bl.flush();
+
+		b(bin, function( err, r ){
+			t.notOk(err);
+			t.notOk(fr === r, 'returned result');
+		});
+	});
+});
+
+test('cache (disabling)', function( t ){
+	t.plan(2);
+
+	bl.noCache = true;
+	bl.flush();
+
+	var b = bl();
+
+	b(bin, function( err, r ){
+		var fr = r;
+
+		b(bin, function( err, r ){
+			t.notOk(err);
+			t.notOk(fr === r, 'returned result');
+
+			// reset state
+			bl.noCache = false;
+		});
+	});
+});
