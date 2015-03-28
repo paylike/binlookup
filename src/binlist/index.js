@@ -2,19 +2,11 @@
 
 var needle = require('needle');
 
-module.exports = bl;
-
-bl.lookup = lookup;
-
-function bl( key ){
-	return function( bin, cb ){
-		lookup(key, bin, cb);
-	}
-}
+module.exports = lookup;
 
 function lookup( key, bin, cb ){
 	var proto = (key ? 'https' : 'http');
-	var url = proto + '://www.binlist.net/json/' + bin.slice(0, 8);
+	var url = proto + '://www.binlist.net/json/' + bin;
 
 	needle.get(url, function( err, response ){
 		if (err)

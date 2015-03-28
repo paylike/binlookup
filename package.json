@@ -1,12 +1,15 @@
 {
 	"name": "binlookup",
 	"version": "0.0.1",
+	"main": "src",
 	"description": "Look up BIN/IIN numbers using binlist.net",
 	"repository": {
 		"type": "git",
 		"url": "git@github.com:paylike/binlookup.git"
 	},
-	"browser": "browser.js",
+	"browser": {
+		"./src/binlist/index.js": "./src/binlist/browser.js"
+	},
 	"testling": {
 		"files": "test.js",
 		"browsers": [

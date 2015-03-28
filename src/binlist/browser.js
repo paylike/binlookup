@@ -1,18 +1,10 @@
 'use strict';
 
-module.exports = bl;
-
-bl.lookup = lookup;
-
-function bl( key ){
-	return function( bin, cb ){
-		lookup(key, bin, cb);
-	}
-}
+module.exports = lookup;
 
 function lookup( key, bin, cb ){
 	var proto = (key ? 'https' : 'http');
-	var url = proto + '://www.binlist.net/json/' + bin.slice(0, 8);
+	var url = proto + '://www.binlist.net/json/' + bin;
 
 	var xhr = new XMLHttpRequest();
 	xhr.open('GET', url, true /* async*/);
