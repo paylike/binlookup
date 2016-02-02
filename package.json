@@ -1,15 +1,8 @@
 {
 	"name": "binlookup",
 	"version": "0.0.2",
-	"main": "src",
 	"description": "Look up BIN/IIN numbers using binlist.net",
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:paylike/binlookup.git"
-	},
-	"browser": {
-		"./src/binlist/index.js": "./src/binlist/browser.js"
-	},
+	"repository": "paylike/binlookup",
 	"testling": {
 		"files": "test.js",
 		"browsers": [
@@ -28,14 +21,18 @@
 		"test:node": "node test",
 		"test:browser": "testling"
 	},
-	"author": "Thomas Jensen <thomas@paylike.io> (https://paylike.io)",
 	"dependencies": {
-		"needle": "^0.8.2"
+		"bluebird": "^3.2.1",
+		"btoa-lite": "^1.0.0",
+		"component-bind": "^1.0.0",
+		"fetch-one": "^0.3.0"
 	},
 	"devDependencies": {
+		"async-cache": "1.0.0",
 		"tape": "^3.5.0",
 		"testling": "^1.7.1",
 		"without-keys": "^0.0.3"
 	},
+	"author": "Thomas Jensen <thomas@paylike.io> (https://paylike.io)",
 	"license": "MIT"
 }

@@ -1,31 +1,36 @@
 # BIN/IIN look up
 
-This module uses the https://www.binlist.net service to return information
-about a card by it's BIN number.
+Lookup card BIN numbers using https://www.binlist.net
 
 ## What is a BIN?
 
-The BIN is the first 4-8 characters of a card number: `xxxx xxxx ...`. You can
-pass any range of 4-8 numbers. More numbers will return more information.
+The BIN is the first 4-8 characters of a card number: `0000 0000 **** ****`.
+You can pass any range of 4-8 numbers. More numbers will return more
+information.
 
 ## Use
 
+Works in browser environments using Browserify or similar.
+
 ```js
-// paid plan
+// with an API key
 var b = require('binlookup')('my-api-key');
 
-// free plan
+// without API key
 var b = require('binlookup')();
 
 b('457173', function( err, data ){
-	if (err)
-		return console.error(err);
-
 	console.log(data);
 });
+
+// using promises
+b('457173')
+	.then(function( data ){
+		console.log(data);
+	});
 ```
 
-An example of the `data` variable:
+Example `data` returned:
 
 ```js
 {
@@ -43,12 +48,30 @@ An example of the `data` variable:
 }
 ```
 
-If you're using their free plan, just leave out the api key.
-
 ## Security notice
 
-Please do *never* deal with actual card numbers if you are not PCI certified.
-As an added security, all arguments are sliced to the first eight characters
-before shipped off to the binlist service.
+You should *never* process or store more than the first 8 characters of a card
+number unless you are PCI compliant and has the appropriate knowledge.
 
-This script comes without any warranties, use it at your own risk.
+The string is always truncated to eight characters before it is sent to the
+binlist service.
+
+This script comes without any warranties or guarantees, use it at your own
+risk.
+
+## Caching
+
+You can cache the response using [AsyncCache](https://www.npmjs.com/package/async-cache)
+or similar:
+
+```js
+var binlookup = require('binlookup');
+
+var cache = new AsyncCache({
+	load: binlookup('key'),
+});
+
+cache.get(bin, function( err, data ){
+	console.log(data);
+});
+```

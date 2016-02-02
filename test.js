@@ -2,6 +2,7 @@
 
 var test = require('tape');
 var withoutKeys = require('without-keys');
+var AsyncCache = require('async-cache');
 var bl = require('./');
 
 var bin = '45717360';
@@ -29,7 +30,7 @@ test('without a key', function( t ){
 	});
 
 	b('bad', function( err, r ){
-		t.ok(err);
+		t.notOk(err);
 		t.notOk(r);
 	});
 });
@@ -45,83 +46,25 @@ test('with a key', { skip: !process.env.KEY }, function( t ){
 	});
 
 	b('bad', function( err, r ){
-		t.ok(err);
+		t.notOk(err);
 		t.notOk(r);
 	});
 });
 
-test('cache', function( t ){
-	t.plan(2);
+test('using async cache', function( t ){
+	t.plan(4);
 
-	bl.noCache = false;
-	bl.flush();
-
-	var b = bl();
-
-	b(bin, function( err, r ){
-		var fr = r;
-
-		b(bin, function( err, r ){
-			t.notOk(err);
-			t.ok(fr === r, 'returned result');
-		});
+	var cache = new AsyncCache({
+		load: bl(),
 	});
-});
 
-test('cache (flush)', function( t ){
-	t.plan(2);
-
-	bl.noCache = false;
-	bl.flush();
-
-	var b = bl();
-
-	b(bin, function( err, r ){
-		var fr = r;
-
-		b(bin, true, function( err, r ){
-			t.notOk(err);
-			t.notOk(fr === r, 'returned result');
-		});
+	cache.get(bin, function( err, r ){
+		t.notOk(err);
+		t.deepEqual(withoutKeys(r, [ 'query_time' ]), result);
 	});
-});
 
-test('cache (global flush)', function( t ){
-	t.plan(2);
-
-	bl.noCache = false;
-	bl.flush();
-
-	var b = bl();
-
-	b(bin, function( err, r ){
-		var fr = r;
-		bl.flush();
-
-		b(bin, function( err, r ){
-			t.notOk(err);
-			t.notOk(fr === r, 'returned result');
-		});
-	});
-});
-
-test('cache (disabling)', function( t ){
-	t.plan(2);
-
-	bl.noCache = true;
-	bl.flush();
-
-	var b = bl();
-
-	b(bin, function( err, r ){
-		var fr = r;
-
-		b(bin, function( err, r ){
-			t.notOk(err);
-			t.notOk(fr === r, 'returned result');
-
-			// reset state
-			bl.noCache = false;
-		});
+	cache.get('bad', function( err, r ){
+		t.notOk(err);
+		t.notOk(r);
 	});
 });
