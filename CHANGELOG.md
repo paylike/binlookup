@@ -5,6 +5,8 @@ log follows the format outlined at http://keepachangelog.com.
 
 ## Unreleased
 
+## 1.0.0 - 2016-02-07
+
 ### Added
 
 - Support promises
