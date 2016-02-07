@@ -2,6 +2,16 @@
 
 Lookup card BIN numbers using https://www.binlist.net
 
+IIN (Issuer Identification Number) is the more modern name.
+
+Useful for querying information from a credit card such as:
+
+- brand (Visa, MasterCard, American Express, etc.)
+- type (debit or credit)
+- category (prepaid or classic)
+- country
+- issuing bank
+
 ## What is a BIN?
 
 The BIN is the first 4-8 characters of a card number: `0000 0000 **** ****`.
@@ -66,6 +76,7 @@ or similar:
 
 ```js
 var binlookup = require('binlookup');
+var AsyncCache = require('async-cache');
 
 var cache = new AsyncCache({
 	load: binlookup('key'),
