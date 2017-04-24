@@ -35,6 +35,20 @@ test('without a key', function( t ){
 	});
 });
 
+test('using promises', function( t ){
+	t.plan(2);
+
+	var b = bl();
+
+	b(bin).then(function( r ){
+		t.deepEqual(r, result);
+	});
+
+	b('bad').catch(function( err ){
+		t.ok(err);
+	});
+});
+
 test('with a key', { skip: !process.env.KEY }, function( t ){
 	t.plan(4);
 
