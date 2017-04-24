@@ -3,23 +3,10 @@
 	"version": "1.0.0",
 	"description": "Look up BIN/IIN numbers using binlist.net",
 	"repository": "paylike/binlookup",
-	"testling": {
-		"files": "test.js",
-		"browsers": [
-			"ie/6..latest",
-			"chrome/22..latest",
-			"firefox/16..latest",
-			"safari/latest",
-			"opera/11.0..latest",
-			"iphone/6",
-			"ipad/6",
-			"android-browser/latest"
-		]
-	},
 	"scripts": {
 		"test": "npm run test:node & npm run test:browser",
 		"test:node": "node test",
-		"test:browser": "testling"
+		"test:browser": "browserify test.js | tap-closer | smokestack"
 	},
 	"dependencies": {
 		"bluebird": "^3.2.1",
@@ -29,7 +16,10 @@
 	},
 	"devDependencies": {
 		"async-cache": "1.0.0",
+		"browserify": "^14.3.0",
+		"smokestack": "^3.4.1",
 		"tape": "^3.5.0",
+		"tap-closer": "^1.0.0",
 		"testling": "^1.7.1",
 		"without-keys": "^0.0.3"
 	},
