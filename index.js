@@ -1,26 +1,50 @@
 'use strict';
 
-var Promise = require('bluebird');
-var fetch = require('fetch-one');
-var bind = require('component-bind');
-var btoa = require('btoa-lite');
+var defined = require('defined');
+var fetch = require('pull-fetch-iso');
+var collect = require('pull-stream/sinks/collect');
 
 module.exports = binlookup;
 
-function binlookup( key ){
-	return bind(null, lookup, 'Basic ' + btoa(key + ':'));
-}
+function binlookup( opts ){
+	if (typeof opts === 'string')
+		opts = {
+			key: opts,
+		};
 
-function lookup( auth, bin, cb ){
-	return fetch('GET', 'http://www.binlist.net/json/'+bin.slice(0, 8), auth && {
-		'Authorization': auth,
-	})
-		.get('body')
-		.catch(fetch.response.ClientError, function( e ){
-			if (+e.code === 404)
-				return null;
+	if (typeof opts === 'undefined')
+		opts = {};
 
-			throw e;
-		})
-		.asCallback(cb);
+	var url = defined(opts.url, 'https://lookup.binlist.net/');
+
+	var Promise = defined(opts.Promise, global.Promise);
+
+	return function( bin, cb ){
+		var source = fetch({
+			host: url,
+			path: bin,
+			headers: Object.assign({
+				'Accept-Version': '3',
+			}, opts.key && {
+				'Authorization': 'Basic '+fetch.btoa(':'+opts.key),
+			}),
+		});
+
+		if (cb === undefined)
+			return new Promise(function( rs, rj ){
+				collect(function( err, ranges){
+					if (err)
+						return rj(err);
+
+					rs(ranges[0]);
+				})(source);
+			});
+
+		collect(function( err, ranges ){
+			if (err)
+				return cb(err);
+
+			cb(null, ranges[0]);
+		})(source);
+	}
 }

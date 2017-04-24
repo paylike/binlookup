@@ -5,6 +5,11 @@ log follows the format outlined at http://keepachangelog.com.
 
 ## Unreleased
 
+### Changed
+
+- Complete rewrite
+- The output format has changed slightly and has more data
+
 ## 1.0.0 - 2016-02-07
 
 ### Added

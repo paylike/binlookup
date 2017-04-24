@@ -1,36 +1,48 @@
 'use strict';
 
 var test = require('tape');
-var withoutKeys = require('without-keys');
 var AsyncCache = require('async-cache');
 var bl = require('./');
 
 var bin = '45717360';
 var result = {
-	bin: "45717360",
-	brand: "VISA",
-	sub_brand: "DANKORT",
-	country_code: "DK",
-	country_name: "Denmark",
-	bank: "Jyske Bank",
-	card_type: "DEBIT",
-	card_category: "CLASSIC",
-	latitude: "56",
-	longitude: "10",
+	number: {
+		length: 16,
+		luhn: true
+	},
+	scheme: 'visa',
+	type: 'debit',
+	brand: 'Visa/Dankort',
+	prepaid: false,
+	country: {
+		numeric: '208',
+		alpha2: 'DK',
+		name: 'Denmark',
+		emoji: '🇩🇰',
+		currency: 'DKK',
+		latitude: 56,
+		longitude: 10
+	},
+	bank: {
+		name: 'Jyske Bank',
+		url: 'www.jyskebank.dk',
+		phone: '+4589893300',
+		city: 'Hjørring'
+	}
 };
 
-test('without a key', function( t ){
+test(function( t ){
 	t.plan(4);
 
 	var b = bl();
 
 	b(bin, function( err, r ){
 		t.notOk(err);
-		t.deepEqual(withoutKeys(r, [ 'query_time' ]), result);
+		t.deepEqual(r, result);
 	});
 
 	b('bad', function( err, r ){
-		t.notOk(err);
+		t.ok(err);
 		t.notOk(r);
 	});
 });
@@ -56,11 +68,11 @@ test('with a key', { skip: !process.env.KEY }, function( t ){
 
 	b(bin, function( err, r ){
 		t.notOk(err);
-		t.deepEqual(withoutKeys(r, [ 'query_time' ]), result);
+		t.deepEqual(r, result);
 	});
 
 	b('bad', function( err, r ){
-		t.notOk(err);
+		t.ok(err);
 		t.notOk(r);
 	});
 });
@@ -74,11 +86,11 @@ test('using async cache', function( t ){
 
 	cache.get(bin, function( err, r ){
 		t.notOk(err);
-		t.deepEqual(withoutKeys(r, [ 'query_time' ]), result);
+		t.deepEqual(r, result);
 	});
 
 	cache.get('bad', function( err, r ){
-		t.notOk(err);
+		t.ok(err);
 		t.notOk(r);
 	});
 });

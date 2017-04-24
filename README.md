@@ -7,6 +7,7 @@ IIN (Issuer Identification Number) is the more modern name.
 Useful for querying information from a credit card such as:
 
 - brand (Visa, MasterCard, American Express, etc.)
+- expected card number length and LUHN algorithm support
 - type (debit or credit)
 - category (prepaid or classic)
 - country
@@ -14,8 +15,8 @@ Useful for querying information from a credit card such as:
 
 ## What is a BIN?
 
-The BIN is the first 4-8 characters of a card number: `0000 0000 **** ****`.
-You can pass any range of 4-8 numbers. More numbers will return more
+The BIN is the first digits of a card number: `0000 0000 **** ****`. You can
+pass any card number prefix of 4-9 digits. More numbers will return more
 information.
 
 ## Use
@@ -23,51 +24,48 @@ information.
 Works in browser environments using Browserify or similar.
 
 ```js
-// with an API key
-var b = require('binlookup')('my-api-key');
+var lookup = require('binlookup')();
 
-// without API key
-var b = require('binlookup')();
-
-b('457173', function( err, data ){
-	console.log(data);
-});
-
-// using promises
-b('457173')
-	.then(function( data ){
+// using callbacks
+lookup('45717360',
+	function( err, data ){
 		console.log(data);
 	});
+
+// using promises
+lookup('45717360').then(
+	data => console.log(data));
 ```
 
 Example `data` returned:
 
 ```js
 {
-	bin: "45717360",
-	brand: "VISA",
-	sub_brand: "DANKORT",
-	country_code: "DK",
-	country_name: "Denmark",
-	bank: "Jyske Bank",
-	card_type: "DEBIT",
-	card_category: "CLASSIC",
-	latitude: "56",
-	longitude: "10",
-	query_time: "352.309µs",
+	number: {
+		length: 16,
+		luhn: true
+	},
+	scheme: 'visa',
+	type: 'debit',
+	brand: 'Visa/Dankort',
+	prepaid: false,
+	country: {
+		numeric: '208',
+		alpha2: 'DK',
+		name: 'Denmark',
+		emoji: '🇩🇰',
+		currency: 'DKK',
+		latitude: 56,
+		longitude: 10
+	},
+	bank: {
+		name: 'Jyske Bank',
+		url: 'www.jyskebank.dk',
+		phone: '+4589893300',
+		city: 'Hjørring'
+	}
 }
 ```
-
-## Security notice
-
-You should *never* process or store more than the first 8 characters of a card
-number unless you are PCI compliant and has the appropriate knowledge.
-
-The string is always truncated to eight characters before it is sent to the
-binlist service.
-
-This script comes without any warranties or guarantees, use it at your own
-risk.
 
 ## Caching
 
@@ -75,11 +73,11 @@ You can cache the response using [AsyncCache](https://www.npmjs.com/package/asyn
 or similar:
 
 ```js
-var binlookup = require('binlookup');
+var lookup = require('binlookup')();
 var AsyncCache = require('async-cache');
 
 var cache = new AsyncCache({
-	load: binlookup('key'),
+	load: lookup,
 });
 
 cache.get(bin, function( err, data ){

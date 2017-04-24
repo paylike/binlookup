@@ -6,22 +6,20 @@
 	"scripts": {
 		"test": "npm run test:node & npm run test:browser",
 		"test:node": "node test",
-		"test:browser": "browserify test.js | tap-closer | smokestack"
+		"test:browser": "browserify -g [ envify purge ] test.js | tap-closer | smokestack"
 	},
 	"dependencies": {
-		"bluebird": "^3.2.1",
-		"btoa-lite": "^1.0.0",
-		"component-bind": "^1.0.0",
-		"fetch-one": "^0.3.0"
+		"defined": "^1.0.0",
+		"pull-fetch-iso": "^0.0.2",
+		"pull-stream": "^3.5.0"
 	},
 	"devDependencies": {
-		"async-cache": "1.0.0",
+		"async-cache": "^1.1.0",
 		"browserify": "^14.3.0",
+		"envify": "^4.0.0",
 		"smokestack": "^3.4.1",
-		"tape": "^3.5.0",
 		"tap-closer": "^1.0.0",
-		"testling": "^1.7.1",
-		"without-keys": "^0.0.3"
+		"tape": "^4.6.3"
 	},
 	"author": "Thomas Jensen <thomas@paylike.io> (https://paylike.io)",
 	"license": "MIT"
