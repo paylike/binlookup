@@ -25,6 +25,7 @@ function binlookup( opts ){
 			path: bin,
 			headers: Object.assign({
 				'Accept-Version': '3',
+				'X-Client': 'Node.js 2.0.1',
 			}, opts.key && {
 				'Authorization': 'Basic '+fetch.btoa(opts.key+':'),
 			}),

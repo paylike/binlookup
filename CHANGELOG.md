@@ -8,6 +8,7 @@ log follows the format outlined at http://keepachangelog.com.
 ### Changed
 
 - Move the API key to the user name position
+- Add client version header
 
 ## 2.0.0 - 2017-04-24
 
