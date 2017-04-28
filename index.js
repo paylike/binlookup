@@ -26,7 +26,7 @@ function binlookup( opts ){
 			headers: Object.assign({
 				'Accept-Version': '3',
 			}, opts.key && {
-				'Authorization': 'Basic '+fetch.btoa(':'+opts.key),
+				'Authorization': 'Basic '+fetch.btoa(opts.key+':'),
 			}),
 		});
 

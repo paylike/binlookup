@@ -5,6 +5,10 @@ log follows the format outlined at http://keepachangelog.com.
 
 ## Unreleased
 
+### Changed
+
+- Move the API key to the user name position
+
 ## 2.0.0 - 2017-04-24
 
 ### Changed
