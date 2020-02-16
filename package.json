@@ -11,7 +11,7 @@
 	"dependencies": {
 		"defined": "^1.0.0",
 		"pull-fetch-iso": "^0.0.2",
-		"pull-stream": "^3.5.0"
+		"pull-stream": "^3.6.14"
 	},
 	"devDependencies": {
 		"async-cache": "^1.1.0",
