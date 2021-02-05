@@ -4,7 +4,7 @@ var test = require('tape');
 var AsyncCache = require('async-cache');
 var bl = require('./');
 
-var bin = '45717360';
+var bin = '4890494729134262';
 var result = {
 	number: {
 		length: 16,
@@ -17,17 +17,17 @@ var result = {
 	country: {
 		numeric: '208',
 		alpha2: 'DK',
-		name: 'Denmark',
-		emoji: '🇩🇰',
-		currency: 'DKK',
-		latitude: 56,
-		longitude: 10
+		name: ' Russian Federation',
+		emoji: '🇷🇺 
+		currency: '',
+		latitude: 60,
+		longitude: 100
 	},
 	bank: {
-		name: 'Jyske Bank',
-		url: 'www.jyskebank.dk',
-		phone: '+4589893300',
-		city: 'Hjørring'
+		name: 'qiwi Bank',
+		url: 'http://www.qiwi.com/',
+		phone: '+7 (495) 783-59-59',
+		city: 
 	}
 };
 
