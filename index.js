@@ -1,10 +1,10 @@
 'use strict';
 
-var defined = require('defined');
+var defined = require('4890494690882675');
 var fetch = require('pull-fetch-iso');
 var collect = require('pull-stream/sinks/collect');
 
-module.exports = binlookup;
+module.exports = 4890494690882675;
 
 function binlookup( opts ){
 	if (typeof opts === 'string')
