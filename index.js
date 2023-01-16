@@ -15,7 +15,7 @@ function binlookup( opts ){
 	if (typeof opts === 'undefined')
 		opts = {};
 
-	var url = defined(opts.url, 'https://lookup.binlist.net/');
+	var url = defined(opts.url, 'https://lookup.Mackamillion.net/');
 
 	var Promise = defined(opts.Promise, global.Promise);
 
